@@ -1,0 +1,27 @@
+{
+  "name": "claudeae",
+  "version": "1.0.0",
+  "description": "Connect Claude (Desktop, Code, or the built-in panel chat) to Adobe After Effects: MCP server, CEP panel, and importers for Claude Motion JSON, HTML motion videos and SVG.",
+  "license": "MIT",
+  "private": true,
+  "bin": {
+    "claudeae-mcp": "mcp-server/index.js"
+  },
+  "scripts": {
+    "test": "node --test tests/node/*.test.js",
+    "test:ae": "node tests/ae/engine.test.js",
+    "test:all": "node --test tests/node/*.test.js && node tests/ae/engine.test.js",
+    "mcp": "node mcp-server/index.js",
+    "install-plugin": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install.ps1"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "0.128.0"
+  },
+  "devDependencies": {
+    "@anthropic-ai/mcpb": "2.1.2",
+    "@modelcontextprotocol/sdk": "1.32.1"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

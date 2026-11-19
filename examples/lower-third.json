@@ -1,0 +1,53 @@
+{
+  "format": "claude-motion",
+  "version": 1,
+  "name": "Lower Third",
+  "width": 1920,
+  "height": 1080,
+  "fps": 30,
+  "duration": 6,
+  "backgroundColor": "#1f2937",
+  "layers": [
+    {
+      "type": "text",
+      "name": "Name",
+      "inPoint": 0.35,
+      "outPoint": 5.7,
+      "text": { "content": "Ada Lovelace", "fontFamily": "Inter", "fontStyle": "Bold", "fontSize": 64, "color": "#ffffff", "anchor": "left" },
+      "transform": {
+        "position": [{ "t": 0.35, "v": [180, 820], "ease": "easeOutCubic" }, { "t": 0.9, "v": [232, 820], "ease": "hold" }, { "t": 5.2, "v": [232, 820], "ease": "easeInCubic" }, { "t": 5.6, "v": [200, 820] }],
+        "opacity": [{ "t": 0.35, "v": 0, "ease": "easeOutCubic" }, { "t": 0.9, "v": 100, "ease": "hold" }, { "t": 5.2, "v": 100, "ease": "easeInCubic" }, { "t": 5.6, "v": 0 }]
+      }
+    },
+    {
+      "type": "text",
+      "name": "Title",
+      "inPoint": "15f",
+      "outPoint": 5.7,
+      "text": { "content": "Lead Engineer · Analytical Engines", "fontFamily": "Inter", "fontStyle": "Regular", "fontSize": 32, "color": "#cbd5e1", "anchor": "left" },
+      "transform": {
+        "position": [232, 884],
+        "opacity": [{ "t": "15f", "v": 0, "ease": "easeOutCubic" }, { "t": 1.1, "v": 100, "ease": "hold" }, { "t": 5.1, "v": 100, "ease": "easeInCubic" }, { "t": 5.5, "v": 0 }]
+      }
+    },
+    {
+      "type": "shape",
+      "name": "Accent",
+      "transform": {
+        "position": [200, 850],
+        "scale": [{ "t": 0.1, "v": [100, 0], "ease": "easeOutExpo" }, { "t": 0.6, "v": [100, 100], "ease": "hold" }, { "t": 5.3, "v": [100, 100], "ease": "easeInExpo" }, { "t": 5.8, "v": [100, 0] }]
+      },
+      "shapes": [{ "type": "rect", "size": [8, 150], "roundness": 4, "fill": "#f97316" }]
+    },
+    {
+      "type": "shape",
+      "name": "Plate",
+      "transform": {
+        "position": [204, 850],
+        "scale": [{ "t": 0.2, "v": [0, 100], "ease": "easeOutQuint" }, { "t": 0.8, "v": [100, 100], "ease": "hold" }, { "t": 5.3, "v": [100, 100], "ease": "easeInQuint" }, { "t": 5.9, "v": [0, 100] }]
+      },
+      "shapes": [{ "type": "rect", "name": "Plate Rect", "size": [820, 150], "position": [410, 0], "roundness": 10, "fill": { "color": "#0f172a", "opacity": 88 } }],
+      "effects": [{ "name": "Drop Shadow", "properties": { "Opacity": 90, "Distance": 10, "Softness": 40, "Direction": 180 } }]
+    }
+  ]
+}

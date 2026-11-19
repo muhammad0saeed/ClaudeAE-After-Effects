@@ -1,0 +1,116 @@
+{
+  "format": "claude-motion",
+  "version": 1,
+  "name": "Logo Reveal",
+  "defaultEase": "easeInOutCubic",
+  "compositions": [
+    {
+      "id": "main",
+      "name": "Logo Reveal",
+      "width": 1920,
+      "height": 1080,
+      "fps": 30,
+      "duration": 5,
+      "backgroundColor": "#0b0b14",
+      "markers": [
+        { "time": 0.2, "comment": "Ring draws" },
+        { "time": 0.9, "comment": "Wordmark" },
+        { "time": 1.7, "comment": "Tagline" }
+      ],
+      "layers": [
+        {
+          "type": "text",
+          "name": "Tagline",
+          "inPoint": 1.6,
+          "text": { "content": "Motion, directed by Claude", "fontFamily": "Inter", "fontStyle": "Medium", "fontSize": 40, "color": "#a5b4fc", "justification": "center", "tracking": 60 },
+          "transform": {
+            "position": [{ "t": 1.7, "v": [960, 712], "ease": "easeOutCubic" }, { "t": 2.3, "v": [960, 680] }],
+            "opacity": [{ "t": 1.7, "v": 0, "ease": "easeOutCubic" }, { "t": 2.3, "v": 100 }]
+          }
+        },
+        {
+          "type": "text",
+          "name": "Wordmark",
+          "text": {
+            "content": "CLAUDE × AE",
+            "fontFamily": "Inter",
+            "fontStyle": "Bold",
+            "fontSize": 150,
+            "color": "#ffffff",
+            "justification": "center",
+            "tracking": 40,
+            "animators": [
+              {
+                "name": "Rise",
+                "properties": { "opacity": 0, "position": [0, 90], "blur": 24 },
+                "selector": {
+                  "basedOn": "characters",
+                  "shape": "rampUp",
+                  "easeHigh": 50,
+                  "offset": [{ "t": 0.8, "v": -100, "ease": "easeOutCubic" }, { "t": 1.9, "v": 100 }]
+                }
+              }
+            ]
+          },
+          "transform": { "position": [960, 540] },
+          "effects": [{ "name": "Glow", "properties": { "Glow Radius": 30, "Glow Intensity": 0.6, "Glow Threshold": 160 } }]
+        },
+        {
+          "type": "shape",
+          "name": "Burst",
+          "inPoint": 0.9,
+          "outPoint": 2.6,
+          "transform": {
+            "position": [960, 540],
+            "rotation": [{ "t": 0.9, "v": -20, "ease": "easeOutExpo" }, { "t": 1.8, "v": 0 }],
+            "opacity": [{ "t": 1.5, "v": 100, "ease": "easeInCubic" }, { "t": 2.5, "v": 0 }]
+          },
+          "shapes": [
+            {
+              "type": "group",
+              "name": "Rays",
+              "items": [
+                { "type": "rect", "size": [6, 48], "roundness": 3, "position": [0, -330] },
+                { "type": "fill", "color": "#818cf8" },
+                { "type": "repeater", "copies": 12, "transform": { "rotation": 30, "position": [0, 0] } }
+              ],
+              "transform": { "scale": [{ "t": 0.9, "v": [40, 40], "ease": "easeOutExpo" }, { "t": 1.6, "v": [100, 100] }] }
+            }
+          ]
+        },
+        {
+          "type": "shape",
+          "name": "Ring",
+          "transform": {
+            "position": [960, 540],
+            "scale": [{ "t": 0, "v": [70, 70], "ease": "easeOutCubic" }, { "t": 1.4, "v": [100, 100] }],
+            "rotation": [{ "t": 0, "v": -90 }, { "t": 5, "v": 30 }]
+          },
+          "shapes": [
+            {
+              "type": "ellipse",
+              "name": "Ring Stroke",
+              "size": [560, 560],
+              "stroke": { "color": "#6366f1", "width": 6, "lineCap": "round" },
+              "trimPaths": { "start": 0, "end": [{ "t": 0.2, "v": 0, "ease": "easeInOutCubic" }, { "t": 1.4, "v": 100 }] }
+            },
+            {
+              "type": "ellipse",
+              "name": "Ring Inner",
+              "size": [520, 520],
+              "stroke": { "color": "#312e81", "width": 2, "dashes": [4, 14] }
+            }
+          ]
+        },
+        {
+          "type": "shape",
+          "name": "Backlight",
+          "transform": { "position": [960, 540], "opacity": [{ "t": 0, "v": 0 }, { "t": 1.2, "v": 100 }] },
+          "shapes": [
+            { "type": "ellipse", "size": [1700, 1700], "gradient": { "gradientType": "radial", "start": [0, 0], "end": [850, 0], "colors": ["#272463", "#0b0b14"] } }
+          ]
+        }
+      ]
+    }
+  ]
+}

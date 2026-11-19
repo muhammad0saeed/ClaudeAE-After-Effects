@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Remote debugging (Chrome DevTools at http://localhost:<port>) — only active when CSXS PlayerDebugMode=1 -->
+<ExtensionList>
+  <Extension Id="com.claudeae.panel">
+    <HostList>
+      <Host Name="AEFT" Port="8197" />
+    </HostList>
+  </Extension>
+  <Extension Id="com.claudeae.bridge">
+    <HostList>
+      <Host Name="AEFT" Port="8198" />
+    </HostList>
+  </Extension>
+</ExtensionList>

@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*(ClaudeAE)/
+*.log
+.DS_Store
+Thumbs.db
+# third-party reference material kept locally, not part of this project
+Similar Tool/

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GSAP Title</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  body { margin: 0; background: #0e0e10; }
+  #stage { position: relative; width: 1080px; height: 1080px; overflow: hidden; background: #f4efe6; font-family: Georgia, "Times New Roman", serif; }
+  h1 { position: absolute; top: 380px; left: 0; right: 0; margin: 0; text-align: center; font-size: 140px; font-weight: 700; color: #1c1917; }
+  h1 span { display: inline-block; }
+  #bar { position: absolute; left: 140px; top: 600px; width: 800px; height: 14px; border-radius: 7px; background: #e4572e; transform-origin: 0 50%; }
+  #dot { position: absolute; left: 120px; top: 760px; width: 60px; height: 60px; border-radius: 50%; background: #2e86ab; }
+  #tag { position: absolute; top: 660px; left: 0; right: 0; text-align: center; font: italic 44px Georgia, serif; color: #57534e; }
+  #wave { position: absolute; left: 140px; top: 860px; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <h1 id="title"></h1>
+  <div id="bar"></div>
+  <div id="tag">made with GSAP, rebuilt in After Effects</div>
+  <div id="dot"></div>
+  <svg id="wave" width="800" height="120" viewBox="0 0 800 120"><path id="wavePath" d="M0 60 C 100 0, 200 0, 300 60 S 500 120, 600 60 S 700 0, 800 60" fill="none" stroke="#1c1917" stroke-width="6" stroke-linecap="round"/></svg>
+</div>
+<script>
+  const DURATION = 5;
+  const title = document.getElementById('title');
+  title.innerHTML = 'Hello'.split('').map((c) => '<span>' + c + '</span>').join('');
+  const path = document.getElementById('wavePath');
+  const len = path.getTotalLength();
+  gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  tl.from('#title span', { y: 160, opacity: 0, duration: 0.9, stagger: 0.08 })
+    .from('#bar', { scaleX: 0, duration: 0.8, ease: 'expo.inOut' }, 0.3)
+    .from('#tag', { opacity: 0, y: 30, duration: 0.7 }, 0.9)
+    .to('#dot', { x: 780, duration: 1.6, ease: 'power2.inOut' }, 1.0)
+    .to('#dot', { scale: 1.6, duration: 0.4, yoyo: true, repeat: 1, ease: 'sine.inOut' }, 1.4)
+    .to(path, { strokeDashoffset: 0, duration: 1.4, ease: 'power1.inOut' }, 1.6)
+    .to('#bar', { backgroundColor: '#2e86ab', duration: 1.0, ease: 'none' }, 3.0);
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude AE</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.2 6.3 6.3 2.2-6.3 2.2L12 19.5l-2.2-6.3L3.5 11l6.3-2.2z" fill="currentColor"/></svg>
+      <span>Claude AE</span>
+    </div>
+    <button id="status" class="status" title="Connection status"><span class="dot"></span><span id="statusText">Starting…</span></button>
+  </header>
+
+  <nav class="tabs" role="tablist">
+    <button class="tab active" data-tab="chat" role="tab">Chat</button>
+    <button class="tab" data-tab="import" role="tab">Import</button>
+    <button class="tab" data-tab="connect" role="tab">Connect</button>
+    <button class="tab" data-tab="activity" role="tab">Activity <span id="activityBadge" class="badge hidden">0</span></button>
+  </nav>
+
+  <!-- ============================== CHAT -->
+  <section id="tab-chat" class="pane active">
+    <div id="messages" class="messages">
+      <div id="emptyChat" class="empty">
+        <h2>Direct After Effects with Claude</h2>
+        <p>Claude sees your project and edits the timeline directly — layers, keyframes, effects, graphics, at exact times. Every action is one undo step.</p>
+        <div class="suggestions">
+          <button class="chip-suggest">Build a 5-second logo reveal for "NOVA" in a new 1080p comp</button>
+          <button class="chip-suggest">Add a lower third for "Jane Doe — Producer" at 00:00:02:00 in the active comp</button>
+          <button class="chip-suggest">Make the selected layers pop in one after another with a slight overshoot</button>
+          <button class="chip-suggest">Draw a clean rocket icon as editable shapes and animate it flying in</button>
+          <button class="chip-suggest">Make a 20-second promo from the photos and music in my project, cut to the beat</button>
+          <button class="chip-suggest">Organise my Project panel into folders</button>
+        </div>
+      </div>
+    </div>
+    <div id="chatNotice" class="notice hidden"></div>
+    <form id="composer" class="composer">
+      <div id="tray" class="tray hidden"></div>
+      <textarea id="prompt" rows="2" placeholder="Ask Claude to build or change something — drop images, music, voice-over, video or a script here…  (Enter to send)"></textarea>
+      <div class="composer-row">
+        <button type="button" id="attachBtn" class="ghost icon-btn" title="Attach images, music, voice-over, video, PSD/AI, a script (txt/srt/pdf) or a folder of assets — they are imported into the project and shown to Claude"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 11.5l-8.6 8.6a5.5 5.5 0 0 1-7.8-7.8l9.2-9.2a3.7 3.7 0 0 1 5.2 5.2l-9.2 9.2a1.8 1.8 0 0 1-2.6-2.6l8.5-8.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <label class="toggle" title="Send the active comp, playhead and selected layers with each message"><input id="attachContext" type="checkbox" checked> Timeline context</label>
+        <span id="backendLabel" class="muted small"></span>
+        <span class="spacer"></span>
+        <button type="button" id="newChat" class="ghost" title="Start a new conversation">New</button>
+        <button type="submit" id="send" class="primary">Send</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============================== IMPORT -->
+  <section id="tab-import" class="pane">
+    <div id="drop" class="drop">
+      <div class="drop-title">Drop a file here</div>
+      <div class="muted small">Claude Motion <b>.json</b> · HTML motion <b>.html</b> · <b>.svg</b> graphics · images, video, audio</div>
+      <button id="browse" class="primary">Choose file…</button>
+    </div>
+
+    <fieldset class="group">
+      <legend>Where to build</legend>
+      <label><input type="radio" name="target" value="new" checked> New compositions (own project folder)</label>
+      <label><input type="radio" name="target" value="precomp"> Into the active comp at the playhead (as a precomp)</label>
+      <label><input type="radio" name="target" value="flatten"> Into the active comp at the playhead (layers)</label>
+    </fieldset>
+
+    <fieldset class="group" id="htmlOptions">
+      <legend>HTML motion options</legend>
+      <div class="row">
+        <label>Duration <input id="htmlDuration" type="number" min="0.5" step="0.5" placeholder="auto"> s</label>
+        <label>FPS <input id="htmlFps" type="number" min="1" max="120" step="1" value="30"></label>
+      </div>
+    </fieldset>
+
+    <details class="group">
+      <summary>Paste JSON, SVG or HTML</summary>
+      <textarea id="pasteBox" rows="6" placeholder='{"format": "claude-motion", …}  or  <svg …>  or  <!doctype html>…'></textarea>
+      <button id="importPaste" class="secondary">Import pasted content</button>
+    </details>
+
+    <details class="group">
+      <summary>Examples</summary>
+      <div id="examples" class="examples"></div>
+    </details>
+
+    <div id="importLog" class="log"></div>
+  </section>
+
+  <!-- ============================== CONNECT -->
+  <section id="tab-connect" class="pane">
+    <div class="card">
+      <h3>Claude Desktop &amp; other MCP apps</h3>
+      <p class="muted small">Lets the Claude desktop app (and Claude Code, Cursor, …) see and edit this After Effects session through the ClaudeAE MCP server.</p>
+      <div class="kv"><span>Bridge</span><b id="bridgeInfo">—</b></div>
+      <div class="kv"><span>Claude Desktop</span><b id="desktopInfo">—</b></div>
+      <div class="btns">
+        <button id="connectDesktop" class="primary">Connect Claude Desktop</button>
+        <button id="copyMcp" class="secondary">Copy MCP config</button>
+      </div>
+      <div class="btns">
+        <button id="connectCode" class="secondary">Add to Claude Code</button>
+        <button id="rotateToken" class="ghost" title="Invalidate the current bridge token">New bridge token</button>
+      </div>
+      <pre id="mcpSnippet" class="snippet"></pre>
+    </div>
+
+    <div class="card">
+      <h3>Claude inside After Effects</h3>
+      <label class="field">Chat backend
+        <select id="backend">
+          <option value="claude-code">Claude account (via Claude Code)</option>
+          <option value="api">Anthropic API key</option>
+        </select>
+      </label>
+      <div id="ccSettings">
+        <div class="kv"><span>Claude Code</span><b id="ccInfo">checking…</b></div>
+        <div class="btns">
+          <button id="ccLogin" class="secondary">Sign in…</button>
+          <button id="ccRecheck" class="ghost">Re-check</button>
+        </div>
+        <label class="field">Claude Code executable <input id="claudePath" type="text" placeholder="auto-detect"></label>
+      </div>
+      <div id="apiSettings" class="hidden">
+        <label class="field">API key <input id="apiKey" type="password" placeholder="sk-ant-… (or set ANTHROPIC_API_KEY)" autocomplete="off"></label>
+        <p class="muted small">Stored locally in ~/.claudeae/settings.json.</p>
+      </div>
+      <div class="row">
+        <label class="field">Model
+          <select id="model">
+            <option value="claude-opus-5-5">Claude Opus 5.5</option>
+            <option value="claude-sonnet-5-5">Claude Sonnet 5.5</option>
+            <option value="claude-haiku-5-5">Claude Haiku 5.5</option>
+            <option value="claude-fable-5-1">Claude Fable 5.1</option>
+          </select>
+        </label>
+        <label class="field">Effort
+          <select id="effort">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high" selected>High</option>
+            <option value="xhigh">Extra high</option>
+            <option value="max">Max</option>
+          </select>
+        </label>
+      </div>
+      <label class="field">Node.js <input id="nodePath" type="text" placeholder="auto-detect"></label>
+      <div class="kv"><span>Node.js</span><b id="nodeInfo">checking…</b></div>
+      <button id="saveSettings" class="primary">Save</button>
+    </div>
+
+    <div class="card">
+      <h3>About</h3>
+      <p class="muted small">ClaudeAE <span id="version"></span> — open source (MIT). Engine, bridge and MCP server run locally on this computer.</p>
+      <div class="btns">
+        <button id="openFolder" class="ghost">Open ClaudeAE folder</button>
+        <button id="openDocs" class="ghost">Format reference</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================== ACTIVITY -->
+  <section id="tab-activity" class="pane">
+    <div class="btns">
+      <button id="undoLast" class="secondary">Undo last action</button>
+      <button id="clearActivity" class="ghost">Clear</button>
+    </div>
+    <ul id="activity" class="activity"></ul>
+  </section>
+
+  <div id="lightbox" class="lightbox hidden"><img alt=""></div>
+
+  <script src="cep.js"></script>
+  <script src="markdown.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

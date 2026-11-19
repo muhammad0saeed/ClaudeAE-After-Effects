@@ -1,0 +1,160 @@
+=====================================================================
+  ClaudeAE  -  connect Claude to Adobe After Effects
+  Installation guide (Windows)
+=====================================================================
+
+ClaudeAE lets Claude (the Claude desktop app, Claude Code, or a chat
+panel inside After Effects) see and edit your After Effects timeline:
+build compositions, add text/shape layers, keyframes with real easing,
+effects, import SVG / HTML animations, and render frames to check
+its work. Everything stays editable in After Effects.
+
+
+---------------------------------------------------------------------
+ 1. WHAT YOU NEED
+---------------------------------------------------------------------
+
+  [ ] Windows 10 or 11
+  [ ] Adobe After Effects 2020 or newer
+  [ ] Node.js 18 or newer (free)  ->  https://nodejs.org
+      Download the "LTS" version and install it with the default
+      options. (To check: open PowerShell and type  node -v )
+  [ ] At least one of these:
+        - the Claude desktop app  ->  https://claude.ai/download
+        - Claude Code
+        - an Anthropic API key (for the chat panel inside AE)
+  [ ] Internet connection during install (it downloads one small
+      npm package)
+
+  Optional: Google Chrome or Microsoft Edge, only needed to import
+  HTML animations. Edge is already on every Windows PC.
+
+
+---------------------------------------------------------------------
+ 2. INSTALL  (about 2 minutes)
+---------------------------------------------------------------------
+
+  1. Close After Effects and quit the Claude desktop app
+     (right-click the Claude icon near the clock -> Quit).
+
+  2. Unzip ClaudeAE to a folder you will KEEP, for example:
+
+         Documents\ClaudeAE
+
+     Do not run it from inside the zip, and do not delete this
+     folder later: After Effects loads the panel from it.
+
+  3. Double-click   Install ClaudeAE.cmd
+
+     If Windows shows "Windows protected your PC", click
+     "More info" -> "Run anyway". (The installer is a plain text
+     script; you can open it in Notepad to read it first.)
+
+     The installer will:
+       - check Node.js and download the npm package it needs
+       - allow unsigned After Effects panels (a per-user setting,
+         no admin rights needed)
+       - add the "Claude AE" panel to After Effects
+       - connect the Claude desktop app and Claude Code (if found)
+       - install the "claude-motion" skill for Claude Code and
+         create  dist\claude-motion-skill.zip  for the Claude app
+
+     Wait for "Next:" and press any key to close the window.
+
+  4. Open After Effects.
+
+  5. Open the Claude desktop app.
+
+
+---------------------------------------------------------------------
+ 3. CHECK THAT IT WORKS
+---------------------------------------------------------------------
+
+  In After Effects:
+    Window -> Extensions -> Claude AE
+    The panel opens with Chat / Import / Connect / Activity tabs.
+
+  In the Claude desktop app, start a new chat and type:
+
+    Check the After Effects connection.
+
+  Claude should answer with your After Effects version and the open
+  project. Then try:
+
+    Build a 6-second 1920x1080 title animation that says
+    "Hello After Effects", render a frame and show me.
+
+
+---------------------------------------------------------------------
+ 4. ADD THE SKILL TO THE CLAUDE APP  (recommended)
+---------------------------------------------------------------------
+
+  The skill teaches Claude how to design motion for After Effects.
+
+  Claude app -> Settings -> Capabilities -> Skills -> Upload skill
+  -> choose   dist\claude-motion-skill.zip   (inside your ClaudeAE
+  folder).
+
+  Claude Code gets the skill automatically from the installer.
+
+
+---------------------------------------------------------------------
+ 5. USING THE CHAT INSIDE AFTER EFFECTS  (optional)
+---------------------------------------------------------------------
+
+  Claude AE panel -> Connect tab -> pick a chat backend:
+    - "Claude account via Claude Code": click Sign in... once, or
+    - "Anthropic API key": paste your key (stored only on your PC,
+      in  %USERPROFILE%\.claudeae\settings.json ).
+
+
+---------------------------------------------------------------------
+ 6. TROUBLESHOOTING
+---------------------------------------------------------------------
+
+  "Node.js 18+ is required"
+      Install Node.js LTS from https://nodejs.org, then run
+      Install ClaudeAE.cmd again.
+
+  Claude AE is not in Window -> Extensions
+      Fully restart After Effects. Run Install ClaudeAE.cmd again.
+
+  The Claude app does not see the After Effects tools
+      Quit Claude completely (tray icon -> Quit) and reopen it.
+      In the AE panel, check Connect -> Claude Desktop.
+
+  "bridge is not running"
+      Open After Effects first. The connection starts with it.
+
+  Several After Effects versions installed
+      Set the environment variable CLAUDEAE_AE_PATH to the
+      AfterFX.exe you want to use.
+
+  A font comes out as Arial
+      Install that font on your PC. The warning names it.
+
+  You moved or renamed the ClaudeAE folder
+      Run Install ClaudeAE.cmd again from the new location.
+
+
+---------------------------------------------------------------------
+ 7. UNINSTALL
+---------------------------------------------------------------------
+
+  Double-click   Uninstall ClaudeAE.cmd
+  It removes the After Effects panel, the Claude desktop / Claude
+  Code connections and the skill. Then delete the ClaudeAE folder.
+
+
+---------------------------------------------------------------------
+ SAFETY NOTE
+---------------------------------------------------------------------
+
+  ClaudeAE runs only on your computer. The connection listens on
+  127.0.0.1 with a random token and rejects web pages. Claude can
+  run any After Effects script through it, so connect only Claude
+  apps you trust, and save your project before big changes
+  (every Claude action is one undo step: Edit -> Undo).
+
+  ClaudeAE is an independent open-source project (MIT licence). It
+  is not made or endorsed by Anthropic or Adobe.
